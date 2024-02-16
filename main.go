@@ -39,6 +39,10 @@ func main() {
 		return handlers.Update(c, db)
 	})
 
+	app.Delete("/delete/:id", func(c *fiber.Ctx) error {
+		return handlers.Delete(c, db)
+	})
+
 	log.Fatal(app.Listen(":3000"))
 
 }
