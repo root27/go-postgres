@@ -35,6 +35,10 @@ func main() {
 		return handlers.GetId(c, db)
 	})
 
+	app.Post("/update/:id", func(c *fiber.Ctx) error {
+		return handlers.Update(c, db)
+	})
+
 	log.Fatal(app.Listen(":3000"))
 
 }

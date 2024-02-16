@@ -26,8 +26,6 @@ func Create(c *fiber.Ctx, db *sql.DB) error {
 		return e
 	}
 
-	log.Printf("User: %v", user)
-
 	_, err := db.Query("CREATE TABLE IF NOT EXISTS users (id serial PRIMARY KEY, name VARCHAR(50), age INT)")
 
 	if err != nil {
