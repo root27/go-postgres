@@ -1,16 +1,16 @@
 package handlers
 
 import (
+	"database/sql"
 	"log"
 
 	_ "github.com/lib/pq"
-	"github.com/root27/go-postgres/database"
 	"github.com/root27/go-postgres/models"
 
 	"github.com/gofiber/fiber/v2"
 )
 
-func Create(c *fiber.Ctx) error {
+func Create(c *fiber.Ctx, db *sql.DB) error {
 
 	var user models.User
 
@@ -28,22 +28,7 @@ func Create(c *fiber.Ctx) error {
 
 	log.Printf("User: %v", user)
 
-	db, er := database.Connect()
-
-	if er != nil {
-		log.Fatal(er)
-		c.JSON(fiber.Map{
-			"message": "Error connecting to database",
-		})
-
-		return er
-	}
-
-	log.Println("Database connected")
-
-	defer db.Close()
-
-	_, err := db.Exec("CREATE TABLE IF NOT EXISTS users (id serial PRIMARY KEY, name VARCHAR(50), age INT)")
+	_, err := db.Query("CREATE TABLE IF NOT EXISTS users (id serial PRIMARY KEY, name VARCHAR(50), age INT)")
 
 	if err != nil {
 		log.Fatal(err)
@@ -68,7 +53,7 @@ func Create(c *fiber.Ctx) error {
 	}
 
 	c.JSON(fiber.Map{
-		"message": "Table created successfully",
+		"message": "User created successfully",
 	})
 
 	return nil
