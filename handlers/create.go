@@ -14,11 +14,30 @@ func Create(c *fiber.Ctx) error {
 
 	var user models.User
 
-	c.BodyParser(&user)
+	e := c.BodyParser(&user)
+
+	if e != nil {
+		log.Fatal(e)
+
+		c.JSON(fiber.Map{
+			"message": "Error parsing request",
+		})
+
+		return e
+	}
 
 	log.Printf("User: %v", user)
 
-	db := database.Connect()
+	db, er := database.Connect()
+
+	if er != nil {
+		log.Fatal(er)
+		c.JSON(fiber.Map{
+			"message": "Error connecting to database",
+		})
+
+		return er
+	}
 
 	log.Println("Database connected")
 
@@ -36,7 +55,7 @@ func Create(c *fiber.Ctx) error {
 		return err
 	}
 
-	_, err = db.Exec("INSERT INTO users (name, age) VALUES ($1, $2)", user.Name, user.Age)
+	_, err = db.Query("INSERT INTO users (name, age) VALUES ($1, $2)", user.Name, user.Age)
 
 	if err != nil {
 		log.Fatal(err)
