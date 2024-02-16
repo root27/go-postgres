@@ -23,15 +23,16 @@ func main() {
 
 	app := fiber.New()
 
-	app.Get("/test", func(c *fiber.Ctx) error {
-		return handlers.Test(c, db)
-	})
 	app.Post("/create", func(c *fiber.Ctx) error {
 		return handlers.Create(c, db)
 	})
 
 	app.Get("/getAll", func(c *fiber.Ctx) error {
 		return handlers.GetAll(c, db)
+	})
+
+	app.Get("/get/:id", func(c *fiber.Ctx) error {
+		return handlers.GetId(c, db)
 	})
 
 	log.Fatal(app.Listen(":3000"))
