@@ -10,7 +10,7 @@ var db *sql.DB
 
 func Connect() *sql.DB {
 
-	conn, err := sql.Open("postgres", "postgres://admin:123@localhost:5432/fiber")
+	conn, err := sql.Open("postgres", "postgres://admin:123@localhost:5432/")
 	if err != nil {
 		panic(err)
 	}

@@ -29,6 +29,22 @@ func Create(c *fiber.Ctx) error {
 	if err != nil {
 		log.Fatal(err)
 
+		c.JSON(fiber.Map{
+			"message": "Error creating table",
+		})
+
+		return err
+	}
+
+	_, err = db.Exec("INSERT INTO users (name, age) VALUES ($1, $2)", user.Name, user.Age)
+
+	if err != nil {
+		log.Fatal(err)
+
+		c.JSON(fiber.Map{
+			"message": "Error creating user",
+		})
+
 		return err
 	}
 
