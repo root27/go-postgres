@@ -1,6 +1,6 @@
 # Go server with PostgreSQL
 
-This is a simple Go server with a PostgreSQL database.
+This is a simple Go server with Fiber and PostgreSQL database. 
 
 
 ## Running the server
