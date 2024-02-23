@@ -7,6 +7,7 @@ import (
 	_ "github.com/lib/pq"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 
 	"github.com/root27/go-postgres/handlers"
 )
@@ -22,6 +23,11 @@ func main() {
 	log.Println("Database connected")
 
 	app := fiber.New()
+
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "*",
+		AllowHeaders: "Content-type",
+	}))
 
 	app.Post("/create", func(c *fiber.Ctx) error {
 		return handlers.Create(c, db)
